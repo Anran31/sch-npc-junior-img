@@ -1,0 +1,1 @@
+# sch-npc-junior-img
