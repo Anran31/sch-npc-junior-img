@@ -23,7 +23,16 @@ if __name__ == '__main__':
     df_junior = df_junior[['school_id', 'school_name']]
     df_junior = df_junior.drop_duplicates(subset=['school_id']).reset_index(drop=True)
 
-    url_pic = "https://api.github.com/repos/zydhanlinnar11/schematics-npc-online-judge/git/trees/09498cd8672415e84c9f21997c3592c2b9e7cfd9"
+    url_github = "https://api.github.com/repos/zydhanlinnar11/schematics-npc-online-judge/git/trees/main"
+    resp_github = requests.get(url=url_github)
+
+    df_github = json_normalize(resp_github.json())
+
+    df_github = json.loads(df_github['tree'].to_json(orient='records'))
+    df_github = df_github[0]
+    df_github = json_normalize(df_github)
+
+    url_pic = (df_github['url'].loc[df_github['path'] == 'logo-junior']).item()
     resp_pic = requests.get(url=url_pic)
     df_pic = json_normalize(resp_pic.json())
 
